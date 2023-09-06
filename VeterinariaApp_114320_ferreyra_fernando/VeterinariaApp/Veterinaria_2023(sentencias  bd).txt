@@ -1,0 +1,156 @@
+USE [Veterinaria_2023]
+CREATE TABLE [dbo].[Tipo]
+(
+	[idTipo] [int] identity (1,1) NOT NULL,
+	[nombre] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Tipo] PRIMARY KEY CLUSTERED 
+(
+	[idTipo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+
+CREATE TABLE Atencion
+([idAtencion] [int] identity (1,1)NOT NULL,
+ [fecha] [DateTime] NOT NULL,
+ [descripcion] [varchar] (200),
+ [importe] [money]
+ CONSTRAINT [PK_Atencion] PRIMARY KEY CLUSTERED 
+(
+	[idAtencion] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+
+CREATE TABLE Cliente
+([idCliente] [int] identity(1,1) NOT NULL,
+ [sexo] [bit] NOT NULL,--cuando es bool en c#
+ [codigo] [int],
+ CONSTRAINT [PK_Cliente] PRIMARY KEY CLUSTERED 
+(
+	[idCliente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+
+CREATE TABLE Mascota
+([idMascota] [int] identity (1,1) NOT NULL,
+ [nombre] [varchar] (50),
+ [edad] [int] NOT NULL,
+ [idtipo] [int]
+ CONSTRAINT [PK_Mascota] PRIMARY KEY CLUSTERED
+ (
+	[idMascota] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+CREATE TABLE Detalle_Atencion
+([id_detalle_atencion] [int] identity (1,1) NOT NULL,
+ [cantidad] [int],
+ [idAtencion] [int],
+ [idMascota] [int],
+ [importe_atencion] [money],
+ CONSTRAINT [PK_detalle_atencion] PRIMARY KEY CLUSTERED (id_detalle_atencion),
+ CONSTRAINT fk_detalle_atencion_mascota FOREIGN KEY (id_detalle_atencion)
+ references  Mascota (idMascota),
+ CONSTRAINT fk_detalle_atencion_atencion FOREIGN KEY (idatencion)
+ references  Atencion (idAtencion))
+
+CREATE TABLE Tipo_Atencion
+(id_tipo_atencion int identity (1,1),
+descripcion varchar (200)not null,
+CONSTRAINT [PK_tipo_atencion] PRIMARY KEY CLUSTERED (id_tipo_atencion),
+)
+
+ALTER TABLE Atencion
+ADD id_tipo_Atencion int
+
+ALTER TABLE Atencion
+ADD CONSTRAINT fk_atencion_tipo_atencion FOREIGN KEY (id_tipo_Atencion)
+REFERENCES Tipo_Atencion (id_tipo_Atencion)
+
+
+INSERT INTO [Tipo] ([nombre]) VALUES ('Perro')
+INSERT INTO [Tipo] ([nombre]) VALUES ('Gato')
+INSERT INTO [Tipo] ([nombre]) VALUES ('Araña')
+INSERT INTO [Tipo] ([nombre]) VALUES ('Iguana')
+
+INSERT INTO Mascota([nombre], [edad],[idtipo]) VALUES ('Leyla', 8, 1)
+INSERT INTO Mascota([nombre], [edad],[idtipo]) VALUES ('Morita', 3, 1)
+INSERT INTO Mascota([nombre], [edad],[idtipo]) VALUES ('Moro', 5, 2)
+INSERT INTO Mascota([nombre], [edad],[idtipo]) VALUES ('Kero', 17 , 2)
+INSERT INTO Mascota([nombre], [edad],[idtipo]) VALUES ('Dipsy', 1, 3)
+INSERT INTO Mascota([nombre], [edad],[idtipo]) VALUES ('Marta', 4, 4)
+
+
+
+
+INSERT INTO Tipo_Atencion (descripcion) 
+VALUES ('Tratamiento')
+INSERT INTO Tipo_Atencion (descripcion) 
+VALUES ('Vacuna')
+
+
+
+--CONSULTA
+ALTER PROCEDURE [dbo].[SP_CONSULTAR_TIPO_ATENCION]
+@descripcion varchar (50)--parametro con el tipo
+AS
+BEGIN
+SELECT * FROM Atencion A
+WHERE A.descripcion = @descripcion;
+END
+
+--ES ALTER PORQUE ESTAMOS AGREGANDO
+CREATE PROCEDURE [dbo].[SP_PROXIMO_ID]
+@next int OUTPUT
+AS
+BEGIN
+	SET @next = (SELECT MAX(idAtencion)+1  FROM Atencion );
+END
+
+--INSERT EN TABLA MAESTRA
+--sp de salida de idMascota para hacer el insert para la tabla maestra mascota
+CREATE PROCEDURE [dbo].[SP_INSERTAR_MAESTRO_MASCOTA] 
+	@nombre varchar (50),
+	@edad [int],
+	@idtipo [int],
+	@idMascota int OUTPUT--en este 'idmascota ouput' se cargan todos los parametros anteriores
+AS
+BEGIN
+	INSERT INTO Mascota(nombre, edad, idtipo)
+    VALUES (@nombre, @edad, @idtipo);
+    --Asignamos el valor del último ID autogenerado (obtenido --  
+    --mediante la función SCOPE_IDENTITY() de SQLServer)	
+    SET @idMascota = SCOPE_IDENTITY();
+
+END
+
+--INSERTAR EL DETALLE
+CREATE PROCEDURE [dbo].[SP_INSERTAR_DETALLE] 
+	@cantidad int, 
+	@idAtencion int, 
+	@idMascota int,
+	@importe_atencion money
+AS
+BEGIN
+	INSERT INTO Detalle_Atencion(cantidad,idAtencion, idMascota, importe_atencion)
+    VALUES (@cantidad, @idAtencion, @idMascota, @importe_atencion);
+  
+END
+
+--SP CONSULTAR MASCOTA
+
+CREATE PROCEDURE [dbo].[SP_CONSULTAR_MASCOTA]
+AS
+BEGIN
+	
+	SELECT * from MASCOTA;
+END
+
+CREATE PROCEDURE [dbo].[SP_CONSULTAR_TIPO_ATENCION]
+AS
+BEGIN
+	
+	SELECT * from Tipo_Atencion;
+END
