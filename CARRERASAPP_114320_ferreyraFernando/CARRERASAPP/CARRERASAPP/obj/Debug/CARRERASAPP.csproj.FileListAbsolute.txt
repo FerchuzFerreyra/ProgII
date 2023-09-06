@@ -1,0 +1,12 @@
+C:\Users\letic\OneDrive\Escritorio\CARRERAS\CARRERASAPP\CARRERASAPP\bin\Debug\CARRERASAPP.exe.config
+C:\Users\letic\OneDrive\Escritorio\CARRERAS\CARRERASAPP\CARRERASAPP\bin\Debug\CARRERASAPP.exe
+C:\Users\letic\OneDrive\Escritorio\CARRERAS\CARRERASAPP\CARRERASAPP\bin\Debug\CARRERASAPP.pdb
+C:\Users\letic\OneDrive\Escritorio\CARRERAS\CARRERASAPP\CARRERASAPP\obj\Debug\CARRERASAPP.csproj.AssemblyReference.cache
+C:\Users\letic\OneDrive\Escritorio\CARRERAS\CARRERASAPP\CARRERASAPP\obj\Debug\CARRERASAPP.csproj.SuggestedBindingRedirects.cache
+C:\Users\letic\OneDrive\Escritorio\CARRERAS\CARRERASAPP\CARRERASAPP\obj\Debug\CARRERASAPP.FrmPrincipal.resources
+C:\Users\letic\OneDrive\Escritorio\CARRERAS\CARRERASAPP\CARRERASAPP\obj\Debug\CARRERASAPP.Presentacion.FrmNuevaCarrera.resources
+C:\Users\letic\OneDrive\Escritorio\CARRERAS\CARRERASAPP\CARRERASAPP\obj\Debug\CARRERASAPP.Properties.Resources.resources
+C:\Users\letic\OneDrive\Escritorio\CARRERAS\CARRERASAPP\CARRERASAPP\obj\Debug\CARRERASAPP.csproj.GenerateResource.cache
+C:\Users\letic\OneDrive\Escritorio\CARRERAS\CARRERASAPP\CARRERASAPP\obj\Debug\CARRERASAPP.csproj.CoreCompileInputs.cache
+C:\Users\letic\OneDrive\Escritorio\CARRERAS\CARRERASAPP\CARRERASAPP\obj\Debug\CARRERASAPP.exe
+C:\Users\letic\OneDrive\Escritorio\CARRERAS\CARRERASAPP\CARRERASAPP\obj\Debug\CARRERASAPP.pdb
